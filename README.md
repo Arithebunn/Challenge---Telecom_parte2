@@ -13,6 +13,7 @@ Tu nueva misión es desarrollar modelos predictivos capaces de prever qué clien
 5. Ejecuta el comando: `jupyter notebook`
 6. Se abrirá Jupyter en tu navegador web.
 7. Haz clic sobre el archivo **.ipynb** para abrirlo.
+8. Asegúrate que el archivo `datos_tratados.csv` esté en la misma carpeta que el notebook.
 
 ✅ El cuaderno quedará listo para usarse. ✨
 
@@ -41,32 +42,38 @@ Tu nueva misión es desarrollar modelos predictivos capaces de prever qué clien
 - `Charges.Monthly`: total de todos los servicios del cliente por mes
 - `Charges.Total`: total gastado por el cliente
 
-## ➗ El código se divide en 7 secciones:
-1. 📌 Extracción
-
-Se importaron los datos de la API de Telecom X. El archivo se encuentra disponible en este mismo repositorio con el nombre `TelecomX_Data`. Estos datos están disponibles en formato JSON y contienen información esencial sobre los clientes, incluyendo datos demográficos, tipo de servicio contratado y estado de evasión.
-
-2. 🔧 Transformación 
+## ➗ El código se divide en 4 secciones:
+1. 🛠️ Preparación de los Datos
 
 En esta sección:
-- Se comprende la estructura del dataset y el significado de sus columnas. Identificando variables relevantes para el análisis de evasión de clientes.
-- Se verifica si hay problemas en los datos que puedan afectar el análisis como valores ausentes, duplicados, errores de formato e inconsistencias en las categorías.
-- Se ajusta los datos para asegurar que estén completos y coherentes.
-- Se estandarizaron y transformaron datos para facilitar el análisis. 
+- Se carga el archivo CSV que contiene los datos tratados anteriormente, llamado `datos_tratados.csv`.
+- Se elimina  la columna de ID de cliente, que no aportan valor al análisis o a los modelos predictivos.
+- Transforma las variables categóricas a formato numérico con `pd.get_dummies` para hacerlas compatibles con los algoritmos de machine learning.
+- Se normalizan o estandarizan los datos para los modelos de KNN.
 
-3. 📊 Carga y análisis
+2. 🎯 Correlación y Selección de Variables 
 
-- Se realiza un análisis descriptivo de los datos, calculando métricas como media, mediana, desviación estándar y otras medidas que ayuden a comprender mejor la distribución y el comportamiento de los clientes.
-- Se utilizan gráficos para visualizar la proporción de clientes que permanecieron y los que se dieron de baja. Ejemplo:
-  <img src="proporcion_clientes.png" width="300">
-- Se explora cómo se distribuye la evasión según variables categóricas. Ejemplo:
-  ![](tipo_cliente.png)
-- Se explora cómo las variables numéricas, como "total gastado" o "tiempo de contrato", se distribuyen entre los clientes que cancelaron (evasión) y los que no cancelaron. Ejemplo:
-  ![](Variables_numericas.png)
+En esta sección:
+- Se visualiza la matriz de correlación para identificar relaciones entre las variables numéricas y el resto de variables.
+- Eliminación de columnas Irrelevantes de acurdo a la matriz de correlación y un análisis de Chi cuadrada.
+- Se utilizan gráficos como boxplots o scatter plots para visualizar patrones y posibles tendencias:
+  |<img src="tipo_cliente.png" width="500"> | <img src="servicio_internet.png" width="500"> |
+  |------|-------|
+  |<img src="metodo_cobranza.png" width="500"> | <img src="Variables_numericas.png" width="500">|
+
+3. 🤖 Modelado Predictivo
+
+En esta sección:
+- Se divide el conjunto de datos en entrenamiento y prueba para evaluar el rendimiento del modelo.
+- Se calcula la proporción de clientes que cancelaron en relación con los que permanecieron activos.
+- Se crean 4 modelos predictivos iniciales: Regresión Logística, K-Nearest Neighbors, Randomm Forest y Decision Tree Classifier.
+- Se evalúa cada modelo utilizando las siguientes métricas: Exactitud (Accuracy), Precisión, Recall, F1-score y Matriz de confusión.
+- Se verifica si alguno presentó overfitting o underfitting y se ajustan de acuerdo a lo que requieren.
+- Se realiza un análisis crítico y se comparan los modelos determinando cuál tuvo el mejor desempeño. 
 
 4. 📄 Informe final
 
-En esta sección se redactó el informe final dentro del mismo notebook que resume todo el trabajo realizado.
+En esta sección se redactó el informe final dentro del mismo notebook que destaca los factores que más influyen en la cancelación, basándose en las variables seleccionadas y en el rendimiento de cada modelo.
 
 ## Autores
 | [<img src="https://avatars.githubusercontent.com/u/189813009?v=4" width=115><br><sub>Arithebunn</sub>](https://github.com/Arithebunn) |
